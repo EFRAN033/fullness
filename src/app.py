@@ -1,13 +1,15 @@
-from flask import Flask, render_template, request, redirect, jsonify  
+from flask import Flask, render_template, request, redirect, jsonify
 import mysql.connector
 from dotenv import load_dotenv
 import os
 
-load_dotenv()  
+# Cargar variables de entorno
+load_dotenv()
 
+# Inicializar la aplicación Flask
 app = Flask(__name__)
 
-
+# Configuración de la base de datos
 db_config = {
     "host": os.getenv("DB_HOST", "localhost"),
     "user": os.getenv("DB_USER", "root"),
@@ -20,12 +22,13 @@ db_config = {
 def home():
     return render_template('index.html')
 
+# Ruta para guardar una cita en la base de datos
 @app.route('/guardar_cita', methods=['POST'])
 def guardar_cita():
     try:
         data = request.form
         required_fields = ['tipo-paciente', 'nombre', 'apellido', 'email', 'distrito', 'celular', 'ubicacion']
-        
+
         # Validar campos requeridos
         for field in required_fields:
             if field not in data or not data[field]:
@@ -52,12 +55,13 @@ def guardar_cita():
         cursor.execute(sql, values)
         conn.commit()
 
-        return redirect("https://chat.whatsapp.com/LyROmox4Poq159fyDFBCvx")
+        # Redirigir a WhatsApp tras el registro
+        return redirect("https://chat.whatsapp.com/LyROmox4Poq159fyDFBCvx", code=302)
 
     except mysql.connector.Error as err:
         app.logger.error(f"Error de base de datos: {err}")
         return jsonify({"error": "Error al procesar la solicitud"}), 500
-        
+
     except Exception as e:
         app.logger.error(f"Error inesperado: {e}")
         return jsonify({"error": "Error interno del servidor"}), 500
@@ -67,5 +71,10 @@ def guardar_cita():
             cursor.close()
             conn.close()
 
+# Código para correr en Vercel
+def handler(event, context):
+    return app(event, context)
+
+# Para ejecutar localmente
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=os.getenv("FLASK_DEBUG", False))
+    app.run(host='0.0.0.0', port=int(os.getenv("PORT", 5000)), debug=os.getenv("FLASK_DEBUG", "False") == "True")
