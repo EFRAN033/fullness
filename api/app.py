@@ -2,13 +2,16 @@ from flask import Flask, render_template, request, redirect, jsonify
 import mysql.connector
 from dotenv import load_dotenv
 import os
+from serverless_wsgi import handle_request  # Importación crucial para Vercel
 
 # Cargar variables de entorno
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(__name__,
+            static_folder=os.path.abspath("static"),
+            template_folder=os.path.abspath("templates"))
 
-# Configuración de la base de datos
+# Configuración de la base de datos (¡asegúrate de añadir estas variables en Vercel!)
 db_config = {
     "host": os.getenv("DB_HOST", "localhost"),
     "user": os.getenv("DB_USER", "root"),
@@ -64,9 +67,9 @@ def guardar_cita():
             cursor.close()
             conn.close()
 
-def handler(event, context):
-    return app(event, context)
+# Handler específico para Vercel (¡esto es esencial!)
+def vercel_handler(request):
+    return handle_request(app, request)
 
-if __name__ == '__main__':
-    # Solo ejecuta Flask en el hilo principal
-    app.run(host='0.0.0.0', port=5000, debug=False)  # Debug=False para evitar problemas de hilos
+# if __name__ == '__main__':  # No necesario para Vercel pero útil para desarrollo local
+#     app.run(host='0.0.0.0', port=5000)
