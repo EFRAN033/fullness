@@ -1,3 +1,5 @@
 .vercel
 venv/
 __pycache__/
+create_tables.py
+.env

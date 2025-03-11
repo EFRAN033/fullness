@@ -35,8 +35,8 @@
             </div>
             <div class="formulario" id="formulario">
               <h2>Solicita una Cita</h2>
-              <form action="static/imagenes/guardar_cita" method="POST">
-                  <!-- Campo tipo-paciente agregado -->
+              <form action="/guardar_cita" method="POST">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                   <select name="tipo-paciente" required>
                       <option value="">Selecciona tipo de paciente</option>
                       <option value="nuevo">Paciente Nuevo</option>
@@ -58,8 +58,42 @@
                       <option value="virtual">Virtual</option>
                   </select>
                   <button type="submit">Solicitar & Enviar</button>
+                  
+                  <!-- Mensaje de éxito debajo del botón -->
+                  <div id="mensaje-exito" class="alert alert-success mt-3" style="display: none; margin-top: 20px !important;">
+                      ¡Gracias! Tu cita ha sido enviada correctamente. Nos pondremos en contacto contigo pronto.
+                  </div>
               </form>
           </div>
+          
+          <script>
+          document.querySelector('#formulario form').addEventListener('submit', function(e) {
+              e.preventDefault();
+              const form = this;
+              const mensajeExito = document.getElementById('mensaje-exito');
+              
+              fetch(form.action, {
+                  method: 'POST',
+                  body: new FormData(form),
+                  headers: {
+                      'Accept': 'application/json'
+                  }
+              })
+              .then(response => response.json())
+              .then(data => {
+                  if(data.status === 'success') {
+                      mensajeExito.style.display = 'block'; // Solo muestra el mensaje
+                      form.reset(); // Limpia los campos
+                      // Desplazamiento suave al mensaje
+                      mensajeExito.scrollIntoView({ behavior: 'smooth' });
+                  }
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+                  alert('Ocurrió un error al enviar el formulario');
+              });
+          });
+          </script>
             <script>
               function redirectToWhatsApp(){
                 window.location.href = "https://chat.whatsapp.com/LyROmox4Poq159fyDFBCvx";
@@ -453,6 +487,6 @@
       
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-    <script src="Javascript/script.js"></script>
+    <script src="/static/js/script.js"></script>
 </body>
 </html>
