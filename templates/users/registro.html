@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fullness | Crear Cuenta</title>
+    <link rel="icon" type="image/png" href="../../static/imagenes/icono.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700&family=Open+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../../static/css/styles.css" />
+    <style>
+      /* Loader styles */
+      .loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #0a3d5f;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+      }
+
+      .loader {
+        width: 120px;
+        height: 120px;
+        position: relative;
+      }
+
+      .loader img {
+        width: 100%;
+        height: auto;
+        animation: pulse 1.5s infinite ease-in-out;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.95);
+          opacity: 0.7;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(0.95);
+          opacity: 0.7;
+        }
+      }
+
+      .loader-text {
+        color: white;
+        font-family: "Raleway", sans-serif;
+        font-weight: 600;
+        margin-top: 20px;
+        text-align: center;
+        letter-spacing: 1px;
+      }
+
+      .hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .container {
+        max-width: 100%;
+        padding: 20px;
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        background-color: #f4f7f9;
+        overflow-y: auto;
+      }
+
+      .login-section {
+        width: 100%;
+        max-width: 600px;
+        padding: 2rem;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin: 20px 0;
+      }
+
+      .login-form {
+        width: 100%;
+      }
+
+      .social-login {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .social-button {
+        flex: 1;
+        margin: 0 5px;
+      }
+
+      .additional-options {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .contact-info {
+        margin-top: 15px;
+        font-size: 0.9em;
+        color: #666;
+      }
+
+      .user-type-selector {
+        display: flex;
+        margin-bottom: 35px;
+        position: relative;
+        gap: 15px;
+        justify-content: center;
+      }
+
+      .user-type-option {
+        width: 220px;
+        text-align: center;
+        padding: 10px 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background-color: transparent;
+        border: none;
+        position: relative;
+        font-weight: 500;
+        color: #555;
+      }
+
+      .user-type-option i {
+        font-size: 18px;
+        margin: 0;
+        transition: all 0.3s ease;
+      }
+
+      .user-type-option.active {
+        color: #0a3d5f;
+        font-weight: 600;
+      }
+
+      .user-type-option.active i {
+        color: #0a3d5f;
+      }
+
+      .user-type-option:not(.active) {
+        color: #777;
+      }
+
+      .user-type-option:hover:not(.active) {
+        color: #333;
+      }
+
+      .user-type-option:after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: transparent;
+        transition: all 0.3s ease;
+      }
+
+      .user-type-option.active:after {
+        background-color: #0a3d5f;
+      }
+
+      .fisio-fields {
+        display: none;
+      }
+
+      /* Estilos para el dropdown de especialidad */
+      .ui.dropdown {
+        width: 100%;
+        border: 1px solid #e0e1e2;
+        border-radius: 4px;
+        padding: 10px 14px;
+        background-color: white;
+        color: #767676;
+        position: relative;
+        z-index: 100;
+      }
+
+      .ui.dropdown .dropdown.icon {
+        float: right;
+        margin-left: 10px;
+      }
+
+      .ui.dropdown .menu {
+        border: 1px solid #e0e1e2;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 101;
+        position: absolute;
+        background: white;
+      }
+
+      .ui.dropdown .menu > .item {
+        padding: 10px 14px;
+        border-bottom: 1px solid #f5f5f5;
+      }
+
+      .ui.dropdown .menu > .item:last-child {
+        border-bottom: none;
+      }
+
+      .ui.dropdown .text {
+        color: #767676;
+      }
+
+      /* Estilo para el textarea de descripción */
+      textarea {
+        width: 100%;
+        min-height: 120px;
+        border: 1px solid #e0e1e2;
+        border-radius: 4px;
+        padding: 10px;
+        font-family: "Open Sans", sans-serif;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Form field spacing */
+      .field {
+        margin-bottom: 20px;
+      }
+
+      /* Lazy loading for images */
+      .lazy-load {
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .lazy-load.loaded {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading screen -->
+    <div class="loader-container" id="loader">
+      <div class="loader">
+        <img src="../../static/imagenes/logo.png" alt="logo fullness" />
+        <div class="loader-text">Cargando...</div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="login-section">
+        <div class="login-form">
+          <div class="header">
+            <img
+              src="../../static/imagenes/logo.png"
+              alt="logo fullness"
+              class="brand-logo floating-icon lazy-load"
+            />
+            <h1>Crear Cuenta</h1>
+            <p>Regístrate para acceder a todos los servicios de Fullness.</p>
+          </div>
+
+          <div class="user-type-selector">
+            <div class="user-type-option active" id="paciente-option">
+              <i class="user icon"></i>
+              <div>Paciente</div>
+            </div>
+            <div class="user-type-option" id="fisio-option">
+              <i class="user md icon"></i>
+              <div>Fisioterapeuta</div>
+            </div>
+          </div>
+
+          <!-- Formulario de registro -->
+          <form class="ui form" id="registro-form">
+            <input
+              type="hidden"
+              id="tipo-usuario"
+              name="tipo-usuario"
+              value="paciente"
+            />
+
+            <!-- Campos comunes -->
+            <div class="field">
+              <label>Nombre</label>
+              <div class="ui left icon input">
+                <input
+                  type="text"
+                  placeholder="Nombre"
+                  name="nombre"
+                  required
+                />
+                <i class="user icon"></i>
+              </div>
+            </div>
+            <div class="field">
+              <label>Apellido</label>
+              <div class="ui left icon input">
+                <input
+                  type="text"
+                  placeholder="Apellido"
+                  name="apellido"
+                  required
+                />
+                <i class="user icon"></i>
+              </div>
+            </div>
+            <div class="field">
+              <label>DNI</label>
+              <div class="ui left icon input">
+                <input type="text" placeholder="12345678" name="dni" required />
+                <i class="id card icon"></i>
+              </div>
+            </div>
+            <div class="field">
+              <label>Teléfono</label>
+              <div class="ui left icon input">
+                <input
+                  type="text"
+                  placeholder="999-999-999"
+                  name="telefono"
+                  required
+                />
+                <i class="phone icon"></i>
+              </div>
+            </div>
+            <div class="field">
+              <label>Correo electrónico</label>
+              <div class="ui left icon input">
+                <input
+                  type="email"
+                  placeholder="ejemplo@gmail.com"
+                  name="email"
+                  required
+                />
+                <i class="envelope icon"></i>
+              </div>
+            </div>
+            <div class="field">
+              <label>Dirección</label>
+              <div class="ui left icon input">
+                <input
+                  type="text"
+                  placeholder="Dirección completa"
+                  name="direccion"
+                  required
+                />
+                <i class="home icon"></i>
+              </div>
+            </div>
+            <div class="field">
+              <label>Fecha de nacimiento</label>
+              <div class="ui left icon input">
+                <input type="date" name="fecha_nacimiento" required />
+                <i class="calendar icon"></i>
+              </div>
+            </div>
+
+            <!-- Campos específicos para fisioterapeutas -->
+            <div class="fisio-fields">
+              <div class="field">
+                <label>Número de colegiado</label>
+                <div class="ui left icon input">
+                  <input
+                    type="text"
+                    placeholder="Número de colegiado"
+                    name="num_colegiado"
+                  />
+                  <i class="id badge icon"></i>
+                </div>
+              </div>
+              <div class="field">
+                <label>Especialidad</label>
+                <select class="ui dropdown" name="especialidad">
+                  <option value="">Selecciona tu especialidad</option>
+                  <option value="1">Fisioterapia Deportiva</option>
+                  <option value="2">Fisioterapia Neurológica</option>
+                  <option value="3">Fisioterapia Traumatológica</option>
+                  <option value="4">Fisioterapia Respiratoria</option>
+                  <option value="5">Fisioterapia Geriátrica</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Descripción profesional</label>
+                <textarea
+                  style="resize: none"
+                  placeholder="Describe tu experiencia y especialización..."
+                  name="descripcion"
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- Campos de contraseña -->
+            <div class="field">
+              <label>Contraseña</label>
+              <div class="ui left icon input">
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  name="password"
+                  required
+                />
+                <i class="lock icon"></i>
+              </div>
+            </div>
+            <div class="field">
+              <label>Confirmar contraseña</label>
+              <div class="ui left icon input">
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  name="confirm_password"
+                  required
+                />
+                <i class="lock icon"></i>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui checkbox">
+                <input id="checkbox" type="checkbox" name="terms" required />
+                <label for="checkbox"
+                  >Acepto los <a href="#">términos y condiciones</a></label
+                >
+              </div>
+            </div>
+            <button class="ui fluid primary button login-button" type="submit">
+              <span>Crear Cuenta</span>
+              <i class="user plus icon"></i>
+            </button>
+          </form>
+
+          <div class="divider">
+            <span>O REGISTRARSE CON</span>
+          </div>
+
+          <div class="social-login">
+            <a href="#" class="social-button facebook">
+              <i class="facebook f icon"></i>
+              <span>Facebook</span>
+            </a>
+            <a href="#" class="social-button google">
+              <i class="google icon"></i>
+              <span>Google</span>
+            </a>
+            <a href="#" class="social-button linkedin">
+              <i class="linkedin in icon"></i>
+              <span>LinkedIn</span>
+            </a>
+          </div>
+
+          <div class="additional-options">
+            <p>
+              ¿Ya tienes cuenta?&nbsp;&nbsp;&nbsp;<a href="index.html"
+                >Inicia sesión&nbsp;<i class="sign-in icon"></i
+              ></a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <script src="../../static/js/scripts.js"></script>
+    <script>
+      // Optimized loading
+      document.addEventListener("DOMContentLoaded", function () {
+        // Show loading screen
+        setTimeout(function () {
+          document.getElementById("loader").classList.add("hidden");
+        }, 1500);
+
+        // Lazy load images
+        const lazyImages = document.querySelectorAll(".lazy-load");
+        lazyImages.forEach((img) => {
+          img.classList.add("loaded");
+        });
+      });
+
+      $(document).ready(function () {
+        // Optimize dropdown initialization
+        $(".ui.dropdown").dropdown({
+          forceSelection: false,
+          clearable: true,
+        });
+
+        // Cambiar entre paciente y fisioterapeuta
+        $("#paciente-option").click(function () {
+          $(this).addClass("active");
+          $("#fisio-option").removeClass("active");
+          $(".fisio-fields").hide();
+          $("#tipo-usuario").val("paciente");
+        });
+
+        $("#fisio-option").click(function () {
+          $(this).addClass("active");
+          $("#paciente-option").removeClass("active");
+          $(".fisio-fields").show();
+          $("#tipo-usuario").val("fisioterapeuta");
+        });
+
+        // Form validation with debounce
+        let validationTimeout;
+        $("input, textarea").on("input", function () {
+          clearTimeout(validationTimeout);
+          // Removed validation timeout completely
+        });
+
+        // Optimize form submission
+        $(".ui.form").on("submit", function (e) {
+          e.preventDefault();
+
+          // Show loading state
+          const submitBtn = $(this).find('button[type="submit"]');
+          submitBtn.addClass("loading");
+
+          // Simulate form submission (replace with actual AJAX call)
+          setTimeout(function () {
+            submitBtn.removeClass("loading");
+            // Process form data here
+            alert("Registro completado con éxito");
+          }, 1000);
+        });
+
+        // Remove the validateForm function and its call completely
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  /* Button styling fix */
+  .ui.primary.button,
+  .ui.fluid.primary.button,
+  .login-button {
+    background-color: #0a3d5f !important;
+    color: white !important;
+    padding: 12px !important;
+    font-size: 16px !important;
+    margin-top: 15px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    transition: background-color 0.3s ease !important;
+  }
+
+  .ui.primary.button:hover,
+  .ui.fluid.primary.button:hover,
+  .login-button:hover {
+    background-color: #0d4b75 !important;
+  }
+
+  .login-button i {
+    margin-left: 8px !important;
+  }
+
+  /* Divider styling */
+  /* Divider styles */
+  .divider {
+    position: relative;
+    text-align: center;
+    margin: 2.8rem 0;
+    font-size: 0.8rem;
+    color: #888;
+  }
+
+  .divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #e0e0e0;
+    z-index: 1;
+  }
+
+  .divider span {
+    position: relative;
+    background-color: white;
+    padding: 0 10px;
+    z-index: 2;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+  }
+</style>
