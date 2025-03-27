@@ -593,7 +593,7 @@
     </div>
   </div>
 </div>
-<!-- Sección Recomendaciones - Versión Compacta -->
+<!-- Sección Recomendaciones -->
 <div class="bg-white py-16 px-4 sm:px-6 lg:px-8">
   <div class="max-w-7xl mx-auto">
     <div class="text-center mb-12">
@@ -909,7 +909,7 @@
       </div>
     </div>
 
-    <!-- CTA Final con más espacio -->
+    <!-- CTA Final -->
     <div class="mt-16 text-center space-y-6">
       <p class="text-[#448ba9] text-base md:text-lg">¿Quieres crear tu propia comunidad?</p>
       <button type="button" class="bg-gradient-to-r from-[#003157] to-[#104e75] text-white px-10 py-4 rounded-full text-base font-medium hover:from-[#00203a] hover:to-[#0d3a5d] transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#104e75] focus:ring-offset-2 inline-flex items-center gap-2 shadow-xl">
@@ -1283,7 +1283,7 @@ export default {
   name: 'HomeView',
   data() {
     return {
-      isMenuOpen: false, // Estado para el menú móvil
+      isMenuOpen: false,
       activeFaq: null,
       selectedPatientType: null,
       showModal: false,

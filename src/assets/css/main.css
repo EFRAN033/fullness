@@ -20,7 +20,6 @@
     animation: fade-in 1s ease-out;
   }
 
-  /* En tu archivo CSS principal */
 .calendly-inline-widget {
   height: 100% !important;
   min-height: 500px;
