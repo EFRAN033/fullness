@@ -1,0 +1,26 @@
+# Node.js dependencias
+
+node_modules/
+package-lock.json
+
+# DIrectiorios de compilacion y salidas
+
+dist/
+build/
+
+# Archivos de configuracion del entorno
+
+.env
+.env.local
+.env.*.local
+
+# Archivos de editores y sistemas operativos
+
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Archivos de Vue.js  y vite 
+
+.vite/
