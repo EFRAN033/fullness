@@ -43,11 +43,11 @@
         </div>
       </div>
 
-          <div 
-            v-show="isMenuOpen"
-            class="md:hidden fixed inset-0 w-full bg-white shadow-lg transform transition-all duration-300 ease-in-out overflow-y-auto"
-            :class="isMenuOpen ? 'translate-x-0' : 'translate-x-full'"
-          >
+      <div 
+        v-show="isMenuOpen"
+        class="md:hidden fixed top-[60px] inset-x-0 w-full bg-white shadow-lg transform transition-all duration-300 ease-in-out overflow-y-auto"
+        :class="isMenuOpen ? 'translate-x-0' : 'translate-x-full'"
+      >
         <div class="px-6 py-4 space-y-4 text-right h-full overflow-y-auto">
           <a 
             href="#" 
@@ -140,8 +140,19 @@
       </div>
     </div>
 
-    <!-- Formulario Derecho -->
-    <div class="absolute inset-0 flex justify-end items-center px-4 md:px-12">
+    <!-- Botón flotante móvil -->
+    <button 
+      @click="showForm = true"
+      class="md:hidden fixed bottom-6 right-4 bg-[#104e75] text-white px-6 py-3 rounded-full shadow-xl z-50 flex items-center gap-2 animate-bounce"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+      </svg>
+      Reservar Cita
+    </button>
+
+    <!-- Formulario Derecho - Versión Desktop -->
+    <div class="hidden md:flex absolute inset-0 justify-end items-center px-4 md:px-12">
       <form class="bg-white p-6 rounded-xl shadow-2xl w-[90%] max-w-md backdrop-blur-sm border border-white/20 relative">
         <!-- Badge -->
         <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#003157] text-white px-4 py-1 rounded-full text-sm font-medium shadow-lg flex items-center">
@@ -178,58 +189,58 @@
           </div>
 
           <div>
-        <label class="block text-xs font-semibold text-[#104e75] mb-1">Tipo de Paciente *</label>
-        <div class="grid grid-cols-2 gap-2">
-          <button 
-            type="button"
-            @click="selectPatientType('nuevo')"
-            :class="[
-              'text-sm py-2 px-3 rounded-lg transition-all font-medium flex items-center justify-center',
-              selectedPatientType === 'nuevo' 
-                ? 'border-2 border-[#003157] bg-[#e3f6fd] text-[#003157] shadow-inner'
-                : 'border-2 border-[#dee3e9] bg-white hover:border-[#448ba9]'
-            ]"
-          >
-            <svg 
-              v-if="selectedPatientType === 'nuevo'"
-              class="w-4 h-4 mr-1 text-[#003157]" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            Nuevo Paciente
-          </button>
-          
-          <button 
-            type="button"
-            @click="selectPatientType('antiguo')"
-            :class="[
-              'text-sm py-2 px-3 rounded-lg transition-all font-medium flex items-center justify-center',
-              selectedPatientType === 'antiguo' 
-                ? 'border-2 border-[#003157] bg-[#e3f6fd] text-[#003157] shadow-inner'
-                : 'border-2 border-[#dee3e9] bg-white hover:border-[#448ba9]'
-            ]"
-          >
-            <svg 
-              v-if="selectedPatientType === 'antiguo'"
-              class="w-4 h-4 mr-1 text-[#003157]" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            Paciente Antiguo
-          </button>
-        </div>
-        <p v-if="!selectedPatientType" class="text-red-500 text-xs mt-1">* Debes seleccionar un tipo de paciente</p>
-      </div>
+            <label class="block text-xs font-semibold text-[#104e75] mb-1">Tipo de Paciente *</label>
+            <div class="grid grid-cols-2 gap-2">
+              <button 
+                type="button"
+                @click="selectPatientType('nuevo')"
+                :class="[
+                  'text-sm py-2 px-3 rounded-lg transition-all font-medium flex items-center justify-center',
+                  selectedPatientType === 'nuevo' 
+                    ? 'border-2 border-[#003157] bg-[#e3f6fd] text-[#003157] shadow-inner'
+                    : 'border-2 border-[#dee3e9] bg-white hover:border-[#448ba9]'
+                ]"
+              >
+                <svg 
+                  v-if="selectedPatientType === 'nuevo'"
+                  class="w-4 h-4 mr-1 text-[#003157]" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                Nuevo Paciente
+              </button>
+              
+              <button 
+                type="button"
+                @click="selectPatientType('antiguo')"
+                :class="[
+                  'text-sm py-2 px-3 rounded-lg transition-all font-medium flex items-center justify-center',
+                  selectedPatientType === 'antiguo' 
+                    ? 'border-2 border-[#003157] bg-[#e3f6fd] text-[#003157] shadow-inner'
+                    : 'border-2 border-[#dee3e9] bg-white hover:border-[#448ba9]'
+                ]"
+              >
+                <svg 
+                  v-if="selectedPatientType === 'antiguo'"
+                  class="w-4 h-4 mr-1 text-[#003157]" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                Paciente Antiguo
+              </button>
+            </div>
+            <p v-if="!selectedPatientType" class="text-red-500 text-xs mt-1">* Debes seleccionar un tipo de paciente</p>
+          </div>
 
           <div>
             <label class="block text-xs font-semibold text-[#104e75] mb-1">Correo Electrónico</label>
-            <input type="email" class="w-full px-3 py-2.5 border-2 border-[#dee3e9] rounded-lg placeholder-[#448ba9] text-sm focus:border-[#003157] focus:ring-2 focus:ring-[#b7ebfa] transition-all outline-none" placeholder="tucorreo@dominio.com">
+            <input type="email" class="w-full px-3 py-2.5 border-2 border-[#dee3e9] rounded-lg placeholder-[#448ba9] text-sm focus:border-[#003157] focus:ring-2 focus:ring-[#b7ebfa] transition-all outline-none" placeholder="tucorreo@gm.com">
           </div>
 
           <div>
@@ -238,6 +249,158 @@
           </div>
 
           <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-[#104e75] mb-1">Distrito</label>
+              <select class="w-full px-3 py-2.5 border-2 border-[#dee3e9] rounded-lg text-sm focus:border-[#003157] focus:ring-2 focus:ring-[#b7ebfa] transition-all outline-none appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMzMzMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cG9seWxpbmUgcG9pbnRzPSI2IDkgMTIgMTUgMTggOSIvPjwvc3ZnPg==')] bg-no-repeat bg-[right:0.75rem_center] bg-[length:1em]">
+                <option class="text-[#448ba9]">Seleccione distrito</option>
+                <option>Jesus Maria</option>
+                <option>Miraflores</option>
+                <option>San Isidro</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-[#104e75] mb-1">Servicio</label>
+              <select class="w-full px-3 py-2.5 border-2 border-[#dee3e9] rounded-lg text-sm focus:border-[#003157] focus:ring-2 focus:ring-[#b7ebfa] transition-all outline-none appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMzMzMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cG9seWxpbmUgcG9pbnRzPSI2IDkgMTIgMTUgMTggOSIvPjwvc3ZnPg==')] bg-no-repeat bg-[right:0.75rem_center] bg-[length:1em]">
+                <option class="text-[#448ba9]">Seleccione servicio</option>
+                <option>Fisioterapia Domiciliaria</option>
+                <option>Consulta Virtual</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <button class="w-full bg-gradient-to-r from-[#003157] to-[#104e75] text-white py-3 rounded-lg font-semibold text-sm hover:from-[#00203a] hover:to-[#0d3a5d] transition-all duration-300 shadow-md hover:shadow-lg mt-4 flex items-center justify-center">
+          Confirmar Reserva
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </button>
+
+        <!-- Garantía -->
+        <div class="text-center mt-4">
+          <p class="text-xs text-[#448ba9] flex items-center justify-center space-x-2">
+            <svg class="w-4 h-4 text-[#003157]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            <span>Protección de datos garantizada · Sin cargos ocultos</span>
+          </p>
+        </div>
+      </form>
+    </div>
+
+    <!-- Formulario Derecho - Versión Mobile -->
+    <div 
+      v-show="showForm"
+      class="md:hidden fixed inset-0 bg-black/50 z-[2000] flex items-center justify-center p-4"
+      @click.self="showForm = false"
+    >
+      <form class="bg-white p-6 rounded-xl w-full max-w-md max-h-[90vh] overflow-y-auto relative">
+        <!-- Badge -->
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#003157] text-white px-4 py-1 rounded-full text-sm font-medium shadow-lg flex items-center">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+          Agenda Prioritizada
+        </div>
+
+        <!-- Botón cerrar -->
+        <button 
+          @click="showForm = false"
+          class="absolute top-4 right-4 text-[#448ba9] hover:text-[#003157]"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+
+        <h2 class="text-xl font-bold text-center mb-4 text-[#104e75] pt-4">
+          <span class="text-[#003157]">Reserva tu Cita</span>
+          <span class="block text-sm font-normal text-[#448ba9] mt-1">en 3 simples pasos</span>
+        </h2>
+
+        <!-- Indicador -->
+        <div class="text-center mb-4">
+          <div class="inline-flex items-center bg-[#b7ebfa] px-3 py-1 rounded-full text-sm text-[#003157]">
+            <span class="w-2 h-2 bg-[#448ba9] rounded-full animate-pulse mr-2"></span>
+            <span>Horarios disponibles hoy</span>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div class="grid grid-cols-1 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-[#104e75] mb-1">Nombre</label>
+              <input type="text" class="w-full px-3 py-2.5 border-2 border-[#dee3e9] rounded-lg placeholder-[#448ba9] text-sm focus:border-[#003157] focus:ring-2 focus:ring-[#b7ebfa] transition-all outline-none" placeholder="Ej: María">
+            </div>
+            
+            <div>
+              <label class="block text-xs font-semibold text-[#104e75] mb-1">Apellido</label>
+              <input type="text" class="w-full px-3 py-2.5 border-2 border-[#dee3e9] rounded-lg placeholder-[#448ba9] text-sm focus:border-[#003157] focus:ring-2 focus:ring-[#b7ebfa] transition-all outline-none" placeholder="Ej: González">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-[#104e75] mb-1">Tipo de Paciente *</label>
+            <div class="grid grid-cols-2 gap-2">
+              <button 
+                type="button"
+                @click="selectPatientType('nuevo')"
+                :class="[
+                  'text-sm py-2 px-3 rounded-lg transition-all font-medium flex items-center justify-center',
+                  selectedPatientType === 'nuevo' 
+                    ? 'border-2 border-[#003157] bg-[#e3f6fd] text-[#003157] shadow-inner'
+                    : 'border-2 border-[#dee3e9] bg-white hover:border-[#448ba9]'
+                ]"
+              >
+                <svg 
+                  v-if="selectedPatientType === 'nuevo'"
+                  class="w-4 h-4 mr-1 text-[#003157]" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                Nuevo Paciente
+              </button>
+              
+              <button 
+                type="button"
+                @click="selectPatientType('antiguo')"
+                :class="[
+                  'text-sm py-2 px-3 rounded-lg transition-all font-medium flex items-center justify-center',
+                  selectedPatientType === 'antiguo' 
+                    ? 'border-2 border-[#003157] bg-[#e3f6fd] text-[#003157] shadow-inner'
+                    : 'border-2 border-[#dee3e9] bg-white hover:border-[#448ba9]'
+                ]"
+              >
+                <svg 
+                  v-if="selectedPatientType === 'antiguo'"
+                  class="w-4 h-4 mr-1 text-[#003157]" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                Paciente Antiguo
+              </button>
+            </div>
+            <p v-if="!selectedPatientType" class="text-red-500 text-xs mt-1">* Debes seleccionar un tipo de paciente</p>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-[#104e75] mb-1">Correo Electrónico</label>
+            <input type="email" class="w-full px-3 py-2.5 border-2 border-[#dee3e9] rounded-lg placeholder-[#448ba9] text-sm focus:border-[#003157] focus:ring-2 focus:ring-[#b7ebfa] transition-all outline-none" placeholder="tucorreo@gm.com">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-[#104e75] mb-1">Celular</label>
+            <input type="tel" class="w-full px-3 py-2.5 border-2 border-[#dee3e9] rounded-lg placeholder-[#448ba9] text-sm focus:border-[#003157] focus:ring-2 focus:ring-[#b7ebfa] transition-all outline-none" placeholder="Ej: 999 999 999">
+          </div>
+
+          <div class="grid grid-cols-1 gap-3">
             <div>
               <label class="block text-xs font-semibold text-[#104e75] mb-1">Distrito</label>
               <select class="w-full px-3 py-2.5 border-2 border-[#dee3e9] rounded-lg text-sm focus:border-[#003157] focus:ring-2 focus:ring-[#b7ebfa] transition-all outline-none appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMzMzMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cG9seWxpbmUgcG9pbnRzPSI2IDkgMTIgMTUgMTggOSIvPjwvc3ZnPg==')] bg-no-repeat bg-[right:0.75rem_center] bg-[length:1em]">
@@ -767,7 +930,7 @@
     </div>
 
     <!-- Contenedor flex con más altura -->
-    <div class="flex justify-between flex-nowrap gap-4 mb-8">
+    <div class="flex justify-between flex-nowrap gap-4 mb-8 overflow-x-auto pb-3 scrollbar-hide">
       <!-- Tarjeta 1 - Bienestar Mental -->
       <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col border border-[#dee3e9] flex-1">
         <div class="flex items-start gap-4 mb-4">
@@ -1284,6 +1447,7 @@ export default {
   data() {
     return {
       isMenuOpen: false,
+      showForm: false,
       activeFaq: null,
       selectedPatientType: null,
       showModal: false,
